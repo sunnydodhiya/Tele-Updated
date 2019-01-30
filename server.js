@@ -342,7 +342,7 @@ app.get('/*',function(req,res){
 	res.redirect('/');
 })
 
-app.listen(2000,function(){
+app.listen(3000,function(){
 	console.log("server started at 3000");
 })
 

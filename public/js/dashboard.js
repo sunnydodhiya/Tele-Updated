@@ -31,9 +31,10 @@
 							            <td>`+result.mapping[i].jabberAddress+`</td>
 							            <td>`+result.mapping[i].externalAddress+`</td>
 							            <td>
-							            	<span class="btn btn-sm btn-warning" data-toggle="modal" data-target="#editModal">
-							            		Edit
-							            	</span>
+							          
+											<span class="btn btn-sm btn-warning" data-toggle="modal" data-target="#editModal" onclick="editData('`+result.mapping[i].id+`',`+result.mapping[i].no+`,'`+result.mapping[i].jabberAddress+`','`+result.mapping[i].externalAddress+`')">
+											Edit
+										</span>
 							            	<span class="btn btn-sm btn-danger" data-toggle="modal" data-target="#deleteModal" onclick="deleteData('`+result.mapping[i].id+`')">
 							            		Delete
 							            	</span>
@@ -80,12 +81,6 @@
 
     	
     });
-
-//logout control
-$('#logoutbtn').on('click',function(response){
-    console.log("i am in logout section");
-	response.redirect('/index');	
-		});
     
 
 //editmapping control
@@ -135,6 +130,7 @@ $('#logoutbtn').on('click',function(response){
     });
 
     $('#deleteMapping').on('click',function(){
+
     //	console.log("i am in click");
     	$.ajax({
 			url:"./mapping/delete",
@@ -145,6 +141,7 @@ $('#logoutbtn').on('click',function(response){
 				
 				getallMapping();
 				$('#deleteModal').modal('hide');
+				location.reload();
 			}
 		});
     	
@@ -158,6 +155,8 @@ $('#logoutbtn').on('click',function(response){
     	$("#newjabberAddress").val("");
 		$("#newrcnumber").val("");
 		$("#createMappingError").hide();
+		location.reload();
+		
     });
 
     $('#editModal').on('hidden.bs.modal',function(e){
