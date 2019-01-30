@@ -65,24 +65,7 @@
     			console.log(result)
     			var totalrow=$("#mappingTable tr").length+1;
     			if(typeof result.error == 'undefined'){
-					//console.log(typeof result.error != undefined);
-					// $('#mappingTable tr:last').after(`
-
-    	// 							<tr id="`+result.id+`">
-					// 		            <td>`+($("#mappingTable tr").length+1)+`</td>
-					// 		            <td>`+result.id+`</td>
-					// 		            <td>`+result.jabberAddress+`</td>
-					// 		            <td>`+result.externalAddress+`</td>
-					// 		            <td>
-					// 		            	<span class="btn btn-sm btn-warning" data-toggle="modal" data-target="#editModal">
-					// 		            		Edit
-					// 		            	</span>
-					// 		            	<span class="btn btn-sm btn-danger" data-toggle="modal" data-target="#deleteModal" onclick="deleteData('`+result.id+`')">
-					// 		            		Delete
-					// 		            	</span>
-					// 		            </td>
-					// 		        </tr>
-    	// 			`);
+	
     			getallMapping();
 				$('#createModal').modal('hide');
 				$("#newjabberAddress").val("");
