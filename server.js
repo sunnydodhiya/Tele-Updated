@@ -97,7 +97,8 @@ app.get('/api/allmapping',function(req,response){
 						no:nos,
 						id:data.id,
 						jabberAddress:data.jabberAddress,
-						externalAddress:data.externalAddress
+						externalAddress:data.externalAddress,
+						friendlyname:data.friendlyname
 					}
 					respdata.push(temp);
 				}
@@ -140,7 +141,8 @@ function getAllData(response){
 						no:nos,
 						id:data.id,
 						jabberAddress:data.jabberAddress,
-						externalAddress:data.externalAddress
+						externalAddress:data.externalAddress,
+						friendlyname:data.domain
 					}
 					respdata.push(temp);
 				}
@@ -170,6 +172,7 @@ function checkUser(username,password,response){
 			if(res.body && res.body=="Unauthorized"){
 				response.redirect('/fail');
 			}else{
+				
 				respdata=[];
 				var body=JSON.parse(res.body);
 				for(var number in body ){
@@ -180,7 +183,8 @@ function checkUser(username,password,response){
 						no:nos,
 						id:data.id,
 						jabberAddress:data.jabberAddress,
-						externalAddress:data.externalAddress
+						externalAddress:data.externalAddress,
+						friendlyname:data.domain
 					}
 					respdata.push(temp);
 				}
@@ -206,7 +210,8 @@ app.post('/mapping/add',(req,response)=>{
 	var url = 'https://cloud.restcomm.com/xmpp/xmppMappings';
 	var data={
 			  "jabberAddress": req.body.jabberAddress,
-			  "domain": "mydomain.com",
+		
+			"domain": req.body.friendlyname,
 			  "externalAddress": req.body.externalAddress
 			}
 
@@ -230,8 +235,9 @@ app.post('/mapping/add',(req,response)=>{
 				console.log(error);
 			}else{
 				var temp=res.body;
-				console.log(res.body);
+				//console.log(res.body);
 				if(res.statusCode == 200){
+					//extServiceAddMapping(username,btoa,phoneNumber,friendlyname);
 					response.json(temp);	
 				}else{
 					response.json({error:res.body})
@@ -269,6 +275,7 @@ app.post('/mapping/delete',(req,response)=>{
 				console.log(error);
 			}else{
 				var temp=res.body;
+				//add krna hai
 				console.log(res);
 				response.json(temp);
 			}
@@ -286,7 +293,7 @@ app.post('/mapping/edit',(req,response)=>{
 	
 	var data={
 			  "jabberAddress": req.body.jabberAddress,
-			  "domain": "mydomain.com",
+			  "domain": req.body,friendlyname,
 			  "externalAddress": req.body.externalAddress
 			}
 

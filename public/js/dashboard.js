@@ -1,15 +1,17 @@
 	var id='';
-	var rownumber,jaddress,eaddress;
+	var rownumber,jaddress,eaddress,friendlyname;
 	function deleteData(ids){
 		id=ids;
 	}
 
-	function editData(ids,row,jabberAddress,externalAddress){
+	function editData(ids,row,jabberAddress,externalAddress,friendlyname){
 		id=ids;
 		rownumber=row;
 		jaddress=jabberAddress;
 		eaddress= externalAddress;
+		friendlyname= friendlyname;
 	}
+	
 	//get all mapping
 	function getallMapping(){
 
@@ -29,7 +31,8 @@
 							            <td>`+(parseInt(i)+1)+`</td>
 							            <td>`+result.mapping[i].id+`</td>
 							            <td>`+result.mapping[i].jabberAddress+`</td>
-							            <td>`+result.mapping[i].externalAddress+`</td>
+										<td>`+result.mapping[i].externalAddress+`</td>
+										<td>`+result.mapping[i].friendlyname+`</td>
 							            <td>
 							          
 											<span class="btn btn-sm btn-warning" data-toggle="modal" data-target="#editModal" onclick="editData('`+result.mapping[i].id+`',`+result.mapping[i].no+`,'`+result.mapping[i].jabberAddress+`','`+result.mapping[i].externalAddress+`')">
@@ -56,30 +59,33 @@
     $('#addMapping').on('click',function(){
     	console.log("i am in click");
     	var address=$("#newjabberAddress").val();
-    	var number=$('#newrcnumber').val();
-    	console.log(address,number);
+		var number=$('#newrcnumber').val();
+		var friendlyname = $('#friendlyname').val();
+		console.log("checkingg...")
+    	console.log(address,number,friendlyname);
     	$.ajax({
     		url:'/mapping/add',
-    		data:{jabberAddress:address,externalAddress:number},
+    		data:{jabberAddress:address,externalAddress:number,friendlyname:friendlyname},
     		type:"post",
     		success(result){
-    			console.log(result)
+    			//console.log(result)
     			var totalrow=$("#mappingTable tr").length+1;
     			if(typeof result.error == 'undefined'){
-	
     			getallMapping();
 				$('#createModal').modal('hide');
 				$("#newjabberAddress").val("");
 				$("#newrcnumber").val("");
+				$("#friendlyname").val("");
+				
 				$("#createMappingError").hide();
+				
 				}else{
 					
 					$("#createMappingError").show();
 				}    			
     		}
-    	});
-
-    	
+		});
+		
     });
     
 
@@ -87,11 +93,12 @@
     $('#editMapping').on('click',function(){
     	console.log("i am in click");
     	var address=$("#editjabberAddress").val();
-    	var number=$('#editrcnumber').val();
+		var number=$('#editrcnumber').val();
+		var friendlyname=$('#editfriendlyname').val();
     	console.log(address,number);
     	$.ajax({
     		url:'/mapping/edit',
-    		data:{id:id,jabberAddress:address,externalAddress:number},
+    		data:{id:id,jabberAddress:address,externalAddress:number,friendlyname:friendlyname},
     		type:"post",
     		success(result){
     			if(typeof result.error == 'undefined'){
@@ -102,7 +109,8 @@
 							            <td>`+rownumber+`</td>
 							            <td>`+result.id+`</td>
 							            <td>`+result.jabberAddress+`</td>
-							            <td>`+result.externalAddress+`</td>
+										<td>`+result.externalAddress+`</td>
+										<td>`+result.friendlyname+`</td>
 							            <td>
 							            	<span class="btn btn-sm btn-warning" data-toggle="modal" data-target="#editModal onclick="editData('`+result.id+`',`+rownumber+`)">
 							            		Edit
@@ -116,13 +124,15 @@
 				
 				$("#editjabberAddress").val("");
 				$("#editrcnumber").val("");
+				$("#editfriendlyname").val("");
 				$("#editMappingError").hide();
 
     			$('#editModal').modal('hide');
 				}else{
 					
 					$("#editMappingError").show();
-				}    			
+				}    	
+				location.reload();		
     		}
     	});
 
@@ -143,7 +153,9 @@
 				$('#deleteModal').modal('hide');
 				location.reload();
 			}
+			
 		});
+		//location.reload();
     	
     	
     });
@@ -154,6 +166,7 @@
     	console.log("in hidden modal");
     	$("#newjabberAddress").val("");
 		$("#newrcnumber").val("");
+		$("#friendlyname").val("");
 		$("#createMappingError").hide();
 		location.reload();
 		
@@ -163,6 +176,7 @@
     	
     	$("#editjabberAddress").val("");
 		$("#editrcnumber").val("");
+		$("#editfriendlyname").val("");
 		$("#editMappingError").hide();
 	});
 	
@@ -170,6 +184,7 @@
     	
     	$("#editjabberAddress").val(jaddress);
 		$("#editrcnumber").val(eaddress);
+		$("#editfriendlyname").val(friendlyname);
 		$("#editMappingError").hide();
     });
 } );
